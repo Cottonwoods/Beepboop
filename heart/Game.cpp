@@ -389,6 +389,18 @@ void Game::load_screen( bool post ) {
 	if( post ) {
 		post_screen( );
 	}
+
+	// Load screen assets
+	fadeShade = LoadTexture( std::string( "..\\anims\\bg\\fade.png" ) );
+	deathShade = LoadTexture( std::string( "..\\anims\\bg\\death.png" ) );
+	pauseMenu = LoadTexture( std::string( "..\\anims\\menu\\menu.png" ) );
+	pauseSelect = new Organ( "..\\anims\\menu\\select.png" );
+	for( int i=0; i<MAX_AREAS; i++ ) {									// Load menu area captions
+		std::stringstream s;
+		s << i;
+		areaTexts[i] = new Organ( ((std::string)"..\\anims\\menu\\area_" + s.str() + (std::string)".png").c_str() );
+	}
+
 };
 
 void Game::load_level( int lev, int entrance ) {
@@ -489,17 +501,6 @@ Game::Game( ) {
 	FmodErrorCheck( fmodSystem->init(32, FMOD_INIT_NORMAL, 0) );		// Max of 32 sounds at once
 	pre_screen( );
 	load_level( );
-
-	fadeShade = LoadTexture( std::string( "..\\anims\\bg\\fade.png" ) );
-	deathShade = LoadTexture( std::string( "..\\anims\\bg\\death.png" ) );
-	pauseMenu = LoadTexture( std::string( "..\\anims\\menu\\menu.png" ) );
-	pauseSelect = new Organ( "..\\anims\\menu\\select.png" );
-
-	for( int i=0; i<MAX_AREAS; i++ ) {									// Load menu area captions
-		std::stringstream s;
-		s << i;
-		areaTexts[i] = new Organ( ((std::string)"..\\anims\\menu\\area_" + s.str() + (std::string)".png").c_str() );
-	}
 
 	/*
 		* Now we want to begin our normal app process--
