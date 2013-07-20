@@ -1,0 +1,52 @@
+﻿Build started 7/20/2013 12:05:34 AM.
+     1>Project "C:\Users\Kirby\Documents\visual studio 2010\projects\heart\heart\Heart.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\Heart.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Kirby\Documents\visual studio 2010\fmodex\include" /I"C:\Users\Kirby\Documents\visual studio 2010\SOIL\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glfw-2.7.7\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glew\include" /Zi /nologo /W2 /WX- /Ox /Ob2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Level.cpp Title.cpp
+         Level.cpp
+         Title.cpp
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Release\Heart.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\fmodex\lib" /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\SOIL\lib" /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\glew\lib" /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\glfw-2.7.7\lib-msvc100" opengl32.lib glu32.lib glew32s.lib fmodex_vc.lib GLFW.lib SOIL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:MSVCRTD /MANIFEST /ManifestFile:"Release\Heart.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Release\Heart.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Release\Heart.lib" /MACHINE:X86 Release\glew.obj
+         Release\Alonebot.obj
+         Release\Game.obj
+         Release\Heart.obj
+         Release\Level.obj
+         Release\Level1_10.obj
+         Release\Level1_02_1.obj
+         Release\Level1_03.obj
+         Release\Level1_04.obj
+         Release\Level1_05.obj
+         Release\Level1_06.obj
+         Release\Level1_07.obj
+         Release\Level1_08.obj
+         Release\Level1_09.obj
+         Release\Level1_11.obj
+         Release\Level1_11_1.obj
+         Release\Level1_12.obj
+         Release\Organ.obj
+         Release\Title.obj
+         Release\Tutorial0_0.obj
+         Release\Tutorial0_1.obj
+         Release\Tutorial0_2.obj
+         Release\Level1_01.obj
+         Release\Level1_02.obj
+         Release\Utilities.obj
+         Release\Vector2D.obj
+         icon.res
+     1>SOIL.lib(SOIL.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
+         Generating code
+         Finished generating code
+         Heart.vcxproj -> C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Release\Heart.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Release\Heart.exe;#1" /manifest Release\Heart.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\Heart.unsuccessfulbuild".
+         Touching "Release\Heart.lastbuildstate".
+     1>Done Building Project "C:\Users\Kirby\Documents\visual studio 2010\projects\heart\heart\Heart.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.59

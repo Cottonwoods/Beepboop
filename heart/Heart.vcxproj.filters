@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Tutorial 0">
+      <UniqueIdentifier>{eb2f6ee3-7c59-415e-b011-c8684c3d7a91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level">
+      <UniqueIdentifier>{9e025228-248b-4e99-bb54-1cbc20fde07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level 1">
+      <UniqueIdentifier>{cbe59cf3-7a27-4406-bd21-cb707612ad5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Assets">
+      <UniqueIdentifier>{068f0804-5540-4eef-95df-31dee2dddd7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level 2">
+      <UniqueIdentifier>{7f4d0c22-2338-481f-b66d-a3c2577a64ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial0_2.cpp">
+      <Filter>Source Files\Tutorial 0</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial0_0.cpp">
+      <Filter>Source Files\Tutorial 0</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial0_1.cpp">
+      <Filter>Source Files\Tutorial 0</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Alonebot.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Heart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Organ.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\glew\src\glew.c">
+      <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_01.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_02.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_02_1.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_03.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_04.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_05.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_06.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_07.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_08.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_09.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_10.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_11.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_11_1.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1_12.cpp">
+      <Filter>Source Files\Level 1</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Alonebot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Organ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.res">
+      <Filter>Resource Files</Filter>
+    </Resource>
+  </ItemGroup>
+</Project>

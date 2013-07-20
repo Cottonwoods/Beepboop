@@ -1,0 +1,72 @@
+﻿Build started 4/3/2013 12:34:58 AM.
+     1>Project "C:\Users\Kirby\Documents\visual studio 2010\projects\heart\heart\Heart.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\Heart.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Kirby\Documents\visual studio 2010\SOIL\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glfw-2.7.7\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glew\include" /ZI /nologo /W2 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Alonebot.cpp Heart.cpp Level.cpp Level1_2_1.cpp Level1_3.cpp Level1_4.cpp Level1_5.cpp Level1_6.cpp Level1_7.cpp Organ.cpp Title.cpp Tutorial.cpp Tutorial0_0.cpp Tutorial0_1.cpp Tutorial0_2.cpp Level1_1.cpp Level1_2.cpp Vector2D.cpp
+         Vector2D.cpp
+         Level1_2.cpp
+         Level1_1.cpp
+         Tutorial0_2.cpp
+         Tutorial0_1.cpp
+         Tutorial0_0.cpp
+         Tutorial.cpp
+         Title.cpp
+         Organ.cpp
+         Level1_7.cpp
+         Level1_6.cpp
+         Level1_5.cpp
+         Level1_4.cpp
+         Level1_3.cpp
+         Level1_2_1.cpp
+         Level.cpp
+         Heart.cpp
+         Alonebot.cpp
+         Generating Code...
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Kirby\Documents\visual studio 2010\SOIL\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glfw-2.7.7\include" /I"C:\Users\Kirby\Documents\visual studio 2010\glew\include" /ZI /nologo /W2 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Utilities.cpp
+         Utilities.cpp
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Debug\Heart.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\SOIL\lib" /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\glew\lib" /LIBPATH:"C:\Users\Kirby\Documents\visual studio 2010\glfw-2.7.7\lib-msvc100" opengl32.lib glu32.lib glew32.lib GLFW.lib SOIL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:MSVCRTD /MANIFEST /ManifestFile:"Debug\Heart.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Debug\Heart.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Debug\Heart.lib" /MACHINE:X86 Debug\Heart.exe.embed.manifest.res
+         Debug\Alonebot.obj
+         Debug\Heart.obj
+         Debug\Level.obj
+         Debug\Level1_2_1.obj
+         Debug\Level1_3.obj
+         Debug\Level1_4.obj
+         Debug\Level1_5.obj
+         Debug\Level1_6.obj
+         Debug\Level1_7.obj
+         Debug\Organ.obj
+         Debug\Title.obj
+         Debug\Tutorial.obj
+         Debug\Tutorial0_0.obj
+         Debug\Tutorial0_1.obj
+         Debug\Tutorial0_2.obj
+         Debug\Level1_1.obj
+         Debug\Level1_2.obj
+         Debug\Utilities.obj
+         Debug\Vector2D.obj
+     1>Tutorial0_1.obj : error LNK2019: unresolved external symbol __imp___CrtDbgReportW referenced in function "public: void __thiscall std::vector<class Enemy *,class std::allocator<class Enemy *> >::push_back(class Enemy * &&)" (?push_back@?$vector@PAVEnemy@@V?$allocator@PAVEnemy@@@std@@@std@@QAEX$$QAPAVEnemy@@@Z)
+     1>Tutorial0_2.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_1.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_2.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_7.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Title.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Tutorial.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Tutorial0_0.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_3.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_4.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_5.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_6.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Alonebot.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Heart.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>Level1_2_1.obj : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
+     1>C:\Users\Kirby\Documents\visual studio 2010\projects\heart\Debug\Heart.exe : fatal error LNK1120: 1 unresolved externals
+     1>Done Building Project "C:\Users\Kirby\Documents\visual studio 2010\projects\heart\heart\Heart.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:13.63
