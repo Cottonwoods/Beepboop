@@ -29,6 +29,7 @@ Alonebot::Alonebot( float x, float y, int d, Alonebot* p ) {
 		chargeCur = 0.f;
 		chargeInc = 0.f;
 		chargeMax = 0;
+		std::fill( visited, visited + MAX_ROOMS, false );
 	}
 	else {
 		w = p->w;
@@ -38,6 +39,8 @@ Alonebot::Alonebot( float x, float y, int d, Alonebot* p ) {
 		setWeap( p->weapon );
 		for( std::set<int>::iterator i = p->items.begin(); i != p->items.end(); ++i )
 			items.emplace( *i );
+		for( int i=0; i<MAX_ROOMS; i++ )
+			visited[i] = p->visited[i];
 		chargeCur = p->chargeCur;
 		chargeInc = p->chargeInc;
 		chargeMax = p->chargeMax;

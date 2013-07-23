@@ -3,7 +3,7 @@
 
 class Game {
   private:
-	int screenWidth, screenHeight;
+	int screenWidth, screenHeight, curLevel;
 	float ratio;
 	bool title;
 
@@ -12,8 +12,9 @@ class Game {
 	GLuint fadeShade,
 		deathShade,
 		pauseMenu;
-	Organ* pauseSelect;
+	Organ *pauseSelect, *fullMap, *unseen, *here;
 	Organ* areaTexts[MAX_AREAS];
+	Organ* areaMaps[MAX_AREAS];
 
 	float fadeAlpha;
 	Timer fade;
@@ -30,6 +31,7 @@ class Game {
 	void draw_player( Alonebot* p );
 	void draw_bg( GLuint bg, float p = 1.f, bool stretch = true );
 	void draw_bg( );
+	void draw_map( );
 	void draw_title( );
 	void draw_screen( );
 	void pre_screen( );

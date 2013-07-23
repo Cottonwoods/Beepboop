@@ -16,13 +16,13 @@ Level( r, entrance, p, fsys, sfx ) {
 	// Create player, placement depending upon the entrance taken
 	switch( entrance ) {
 	  case 0:
-		player = new Alonebot( 20.f, 316.f, 1, p ); break;
+		player = new Alonebot( 20.f, 316.f, p->dir, p ); break;
 	  case 1:
-		player = new Alonebot( 20.f, 116.f, 1, p ); break;
+		player = new Alonebot( 20.f, 116.f, p->dir, p ); break;
 	  case 2:
-		player = new Alonebot( levelWidth - 38.f, 316.f, -1, p ); break;
+		player = new Alonebot( levelWidth - 38.f, 316.f, p->dir, p ); break;
 	  case 3:
-		player = new Alonebot( levelWidth - 38.f, 116.f, -1, p ); break;
+		player = new Alonebot( levelWidth - 38.f, 116.f, p->dir, p ); break;
 	}
 
 	// Add static level objects to array

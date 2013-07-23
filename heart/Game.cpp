@@ -182,6 +182,65 @@ void Game::draw_bg( ) {
 		draw_bg( start->background, 1.125f );
 };
 
+void Game::draw_map( ) {
+	// Draw the area text
+	glPushMatrix( );
+	glTranslatef( start->cameraX + 200.f, start->cameraY + 14.f, 0.f );
+	draw_organ( areaTexts[start->area] );
+	glPopMatrix( );
+
+	// Then the full map, and the coloured area on top
+	glPushMatrix( );
+	glTranslatef( start->cameraX + 198.f, start->cameraY + 88.f, 0.f );
+	draw_organ( fullMap );
+	draw_organ( areaMaps[start->area] );
+
+	// Draw over the spots you have not been
+	Alonebot* player = start->getPlayer();
+	for( int i=0; i<player->MAX_ROOMS; i++ ) {
+		if( !player->visited[i] ) {
+			switch( i ) {
+			  case 0: unseen->pos = Vector2D( 10.f, 183.f ); draw_organ( unseen ); break;
+			  case 1: unseen->pos = Vector2D( 25.f, 183.f ); draw_organ( unseen ); break;
+			  case 2: unseen->pos = Vector2D( 40.f, 183.f ); draw_organ( unseen ); break;
+			  case 3: unseen->pos = Vector2D( 55.f, 183.f ); draw_organ( unseen ); break;
+			  case 4: unseen->pos = Vector2D( 70.f, 183.f ); draw_organ( unseen ); break;
+			  case 6: unseen->pos = Vector2D( 85.f, 183.f ); draw_organ( unseen ); break;
+			  case 7: unseen->pos = Vector2D( 100.f, 183.f ); draw_organ( unseen ); break;
+			  case 8: unseen->pos = Vector2D( 100.f, 168.f ); draw_organ( unseen ); break;
+			  case 9: unseen->pos = Vector2D( 115.f, 183.f ); draw_organ( unseen ); break;
+			  case 10: unseen->pos = Vector2D( 85.f, 168.f ); draw_organ( unseen ); break;
+			  case 11: unseen->pos = Vector2D( 70.f, 168.f ); draw_organ( unseen ); break;
+			  case 12: unseen->pos = Vector2D( 115.f, 198.f ); draw_organ( unseen ); break;
+			  case 13: unseen->pos = Vector2D( 115.f, 168.f ); draw_organ( unseen ); break;
+			  case 14: unseen->pos = Vector2D( 130.f, 168.f ); draw_organ( unseen ); break;
+			  case 16: unseen->pos = Vector2D( 115.f, 213.f ); draw_organ( unseen ); break;
+			}
+		}
+	}
+
+	// Draw the player position
+	switch( curLevel ) {
+	  case 0: here->pos = Vector2D( 10.f, 183.f ); draw_organ( here ); break;
+	  case 1: here->pos = Vector2D( 25.f, 183.f ); draw_organ( here ); break;
+	  case 2: here->pos = Vector2D( 40.f, 183.f ); draw_organ( here ); break;
+	  case 3: here->pos = Vector2D( 55.f, 183.f ); draw_organ( here ); break;
+	  case 4: here->pos = Vector2D( 70.f, 183.f ); draw_organ( here ); break;
+	  case 6: here->pos = Vector2D( 85.f, 183.f ); draw_organ( here ); break;
+	  case 7: here->pos = Vector2D( 100.f, 183.f ); draw_organ( here ); break;
+	  case 8: here->pos = Vector2D( 100.f, 168.f ); draw_organ( here ); break;
+	  case 9: here->pos = Vector2D( 115.f, 183.f ); draw_organ( here ); break;
+	  case 10: here->pos = Vector2D( 85.f, 168.f ); draw_organ( here ); break;
+	  case 11: here->pos = Vector2D( 70.f, 168.f ); draw_organ( here ); break;
+	  case 12: here->pos = Vector2D( 115.f, 198.f ); draw_organ( here ); break;
+	  case 13: here->pos = Vector2D( 115.f, 168.f ); draw_organ( here ); break;
+	  case 14: here->pos = Vector2D( 130.f, 168.f ); draw_organ( here ); break;
+	  case 16: here->pos = Vector2D( 115.f, 213.f ); draw_organ( here ); break;
+	}
+
+	glPopMatrix( );
+};
+
 void Game::draw_title( ) {
 	// Draw the title screen
 	draw_bg( start->backbackground, 1.125f );
@@ -211,10 +270,7 @@ void Game::draw_screen( ) {
 			draw_organ( pauseSelect );
 			glPopMatrix( );
 
-			glPushMatrix( );
-			glTranslatef( start->cameraX + 200.f, start->cameraY + 14.f, 0.f );
-			draw_organ( areaTexts[start->area] );
-			glPopMatrix( );
+			draw_map( );
 		}
 		else {
 			// Draw the background
@@ -395,26 +451,36 @@ void Game::load_screen( bool post ) {
 	deathShade = LoadTexture( std::string( "..\\anims\\bg\\death.png" ) );
 	pauseMenu = LoadTexture( std::string( "..\\anims\\menu\\menu.png" ) );
 	pauseSelect = new Organ( "..\\anims\\menu\\select.png" );
+	fullMap = new Organ( "..\\anims\\menu\\map_full.png" );
+	unseen = new Organ( "..\\anims\\menu\\unseen.png" );
+	here = new Organ( "..\\anims\\menu\\here.png" );
+
 	for( int i=0; i<MAX_AREAS; i++ ) {									// Load menu area captions
 		std::stringstream s;
 		s << i;
 		areaTexts[i] = new Organ( ((std::string)"..\\anims\\menu\\area_" + s.str() + (std::string)".png").c_str() );
+		areaMaps[i] = new Organ( ((std::string)"..\\anims\\menu\\map_" + s.str() + (std::string)".png").c_str() );
 	}
 
 };
 
 void Game::load_level( int lev, int entrance ) {
 	Level* s;
+	curLevel = lev;
 	int curArea = 0;
 	Alonebot* p = 0;
 	Alonebot* temp = 0;
 
-	if( start != 0 ) {
+	if( start != 0 ) {													// Create the first player object
 		temp = start->getPlayer( );
 		p = new Alonebot( temp->pos.x, temp->pos.y, temp->dir, temp );
 		curArea = start->area;
 		delete start;
 	}
+
+	// If you haven't been here before, add it to your map
+	if( lev != INT_MAX && !p->visited[lev] )
+		p->visited[lev] = true;
 
 	switch( lev ) {
 	  case 0:

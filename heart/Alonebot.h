@@ -5,6 +5,7 @@ class Alonebot : public Organ {
   private:
 	static const int COURAGEDURATION = 1000;
 	static const int COURAGETIMEOUT = 250;
+
 	GLuint HP[4];
 	GLuint arm[1];
 	GLuint charge[3];
@@ -12,22 +13,27 @@ class Alonebot : public Organ {
 	GLuint hitFrames[6];
 	GLuint idleFrames[4];
 	GLuint jumpFrames[4];
+
 	GLuint* weapFrames[3];
 	GLuint blstFrames[3];
 	GLuint swrdFrames[3];
 	GLuint* shotFrames;
+
 	float MAX_FALL_SPEED, MAX_X_SPEED, X_ACCEL;
 	int blinkMod;
 
   public:
+	static const int MAX_ROOMS = 17;
+
+	bool visited[MAX_ROOMS];
+	Vector2D armOffset;
+	std::set<int> items;
+	int maxHP, currentHP;
+	int weapon, chargeMax;
+	float jumpSpeed, chargeCur, chargeInc;
 	Timer jumpTime, courage, idle, chargeTime;
 	int jumpStart, shotStart, crouchStart, deathStart;
 	bool walking, jumping, crouching, canJump, canDrop, drop, canDmg;
-	float jumpSpeed, chargeCur, chargeInc;
-	Vector2D armOffset;
-	int maxHP, currentHP;
-	int weapon, chargeMax;
-	std::set<int> items;
 	FMOD::Sound *jumpSFX, *landSFX, *hurtSFX, *doorSFX, *itemSFX, *blstSFX, *swrdSFX;
 	
 	Alonebot( float x = 0.f, float y = 0.f, int d = 1, Alonebot* p = 0 );
