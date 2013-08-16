@@ -1,8 +1,8 @@
-Z - Jump/Select
+Z - Jump/Back
 X - Shoot/Select
 C - Change Weapons
 Enter - Select
-Space - Pause/Select
+Space - Pause/Unpause
 Arrow keys - Move
 Escape - Quit
 

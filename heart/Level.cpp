@@ -118,159 +118,6 @@ Door::~Door( ) {
 }
 
 
-void Level::handle_key( int key, int action ) {
-	if( player->getDeath( ) != 0 ) {						// You dead
-		if( action == GLFW_PRESS ) {
-			if( key == 'X' ) {
-				levelSwitch = true;
-				levelSwitchTo = 0;
-				levelSwentrance = 0;
-			}
-			else if( key == GLFW_KEY_ESC )
-				quit( 0 );
-		}
-	}
-	else if( paused ) {										// Paused
-		if( action == GLFW_PRESS ) {
-			switch( key ) {
-			  case 'X': {
-				  break;
-			  }
-			  case GLFW_KEY_UP: {
-				  selection--;
-				  if( selection < 0 )
-					  selection = 3;
-				  break;
-			  }
-			  case GLFW_KEY_DOWN: {
-				  selection++;
-				  if( selection > 3 )
-					  selection = 0;
-				  break;
-			  }
-			  case GLFW_KEY_SPACE: {
-				paused = !paused;
-				heartBeat.unpause( );
-				break;
-			  }
-			  case GLFW_KEY_ESC: {
-				quit( 0 );
-			  }
-			}
-		}
-	}
-	else {
-		if( action == GLFW_PRESS ) {						// Pressing keys
-			switch( key ) {
-			  case 'Z': {									// Jump!
-				if( player->crouching && player->canDrop ) {
-					player->stand( );
-					player->pos.y += 18.f;					// Crouch coefficient
-					player->canDrop = false;
-				}
-				else if( player->canJump ) {
-					player->jump( );
-					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->jumpSFX, false, &sfxChannel ) );
-					sfxChannel->setVolume( 0.2f );
-				}
-				break;
-			  }
-			  case 'X': {									// Shoot!
-				if( !player->chargeTime.is_started( ) ) {
-				switch( player->weapon ) {						// Different shot depending on the weapon you use
-				  case 1: {											// Blaster
-					Vector2D start = Vector2D( player->dir*15.f, 21.f - (player->crouching?1.f:0.f) );
-					if( player->dir == 1 )
-						start.x += player->w - 11;
-					bullets.push_back( new BlasterShot( true, player->pos + start, Vector2D( player->dir*650.f ) ) );
-					player->shoot( );
-					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->blstSFX, false, &sfxChannel ) );
-					sfxChannel->setVolume( 0.2f );
-					break;
-				  }
-				  case 2: {											// Sword
-					Vector2D start = Vector2D( player->dir*65.f, 20.f - (player->crouching?1.f:0.f) );
-					if( player->dir == 1 )
-						start.x += player->w - 52;
-					bullets.push_back( new SwordSlash( true, player->dir, player->pos + start ) );
-					player->shoot( );
-					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->swrdSFX, false, &sfxChannel ) );
-					sfxChannel->setVolume( 0.2f );
-					break;
-				  }
-				}
-				}
-				break;
-			  }
-			  case 'C': {									// Switch weapons
-				if( !player->chargeTime.is_started( ) ) {
-					if( player->weapon == 1 && player->items.find( 2 ) != player->items.end( ) ) {
-						player->setWeap( 2 );
-					}
-					else if( player->weapon == 2 && player->items.find( 1 ) != player->items.end( ) ) {
-						player->setWeap( 1 );
-					}
-				}
-				break;
-			  }
-			  case GLFW_KEY_DOWN: {							// Crouch!
-				player->crouch( );
-				break;
-			  }
-			  case GLFW_KEY_SPACE: {						// Pause
-				paused = !paused;
-				heartBeat.pause( );
-				break;
-			  }
-			  case GLFW_KEY_ESC: {
-				quit( 0 );
-			  }
-			}
-		}
-		else {												// Releasing keys
-			switch( key ) {
-			  case 'X': {									// Charge shot!
-				if( player->chargeCur != 0.f ) {
-				float charge = player->chargeCur / 100.f;
-				player->chargeCur = 0.f;
-				switch( player->weapon ) {						// Different shot depending on the weapon you use
-				  case 1: {											// Blaster
-					if( charge == 1.f ) {
-						Vector2D start = Vector2D( player->dir*15.f, 21.f - (player->crouching?1.f:0.f) );
-						if( player->dir == 1 )
-							start.x += player->w - 11;
-						bullets.push_back( new BlasterShot( true, player->pos + start, Vector2D( player->dir*650.f ) ) );
-						player->shoot( );
-						FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->blstSFX, false, &sfxChannel ) );
-						sfxChannel->setVolume( 0.2f );
-					}
-					break;
-				  }
-				  case 2: {											// Sword
-					if( charge == 1.f ) {
-						Vector2D start = Vector2D( player->dir*65.f, 20.f - (player->crouching?1.f:0.f) );
-						if( player->dir == 1 )
-							start.x += player->w - 52;
-						bullets.push_back( new SwordSlash( true, player->dir, player->pos + start ) );
-						player->shoot( );
-						FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->swrdSFX, false, &sfxChannel ) );
-						sfxChannel->setVolume( 0.2f );
-					}
-					break;
-				  }
-				}
-				}
-				break;
-				}
-			  case GLFW_KEY_DOWN: {
-				player->stand( );
-				break;
-			  }
-			}
-		}
-	}
-}
-
 void Level::quit( int code ) {
 	glfwCloseWindow( );
 }
@@ -281,6 +128,7 @@ Level::Level( float r, int entrance, Alonebot* p, FMOD::System* fsys, FMOD::Chan
 	cameraV = Vector2D( );
 	ratio = r;
 	selection = 0;
+	menuState = 0;
 	paused = false;
 	levelSwitch = 0;
 	levelSwitchTo = 0;
@@ -527,16 +375,15 @@ void Level::collision( ) {
 	for( sho i=0; i<items.size( ); i++ ) {									// ... and items
 		Vector2D displacement = player->collides( items[i] );
 		if( abs( displacement.y ) > 0.f || abs(displacement.x ) > 0.f ) {
-			switch( items[i]->id ) {
-			  case 1:
-			  case 2:
-				player->setWeap( items[i]->id ); break;
+			// Equip it if you can and add to inventory
+			if( items[i]->equip ) {
+				if( player->weapon != 0 )
+					player->offHandWeap = player->weapon;
+				player->setWeap( items[i]->id );
 			}
-			if( items[i]->id >= 100 )
-				player->currentHP = player->maxHP = player->maxHP + 1;
+			player->add( items[i] );
 			FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->itemSFX, false, &sfxChannel ) );
 			sfxChannel->setVolume( 0.2f );
-			player->items.emplace( items[i]->id );
 			delete items[i];
 			items.erase( items.begin() + i );
 			break;
@@ -654,6 +501,10 @@ void Level::maintenence( float dt ) {
 void Level::pause( ) {
 	typedef unsigned short sho;
 
+	menuState = 0;
+	selection = 0;
+
+	player->chargeTime.pause( );
 	heartBeat.pause( );
 	for( sho i=0; i<NPCs.size( ); i++ )
 		NPCs[i]->pause( );
@@ -670,6 +521,9 @@ void Level::pause( ) {
 void Level::unpause( ) {
 	typedef unsigned short sho;
 
+	menuState = 0;
+	
+	player->chargeTime.unpause( );
 	heartBeat.unpause( );
 	for( sho i=0; i<NPCs.size( ); i++ )
 		NPCs[i]->unpause( );
@@ -684,6 +538,209 @@ void Level::unpause( ) {
 }
 
 void Level::process_events( float dt ) {
+}
+
+void Level::handle_key( int key, int action ) {
+	// Death controls
+	if( player->getDeathTime( ) != 0 ) {						// You dead
+		if( action == GLFW_PRESS && player->getDeathTime( ) >= 1650 ) {
+			if( key == 'X' ) {
+				levelSwitchTo = 0;
+				levelSwitch = true;
+				levelSwentrance = 0;
+			}
+			else if( key == GLFW_KEY_ESC )
+				quit( 0 );
+		}
+	}
+
+	// Pause menu controls
+	else if( paused ) {										// Paused
+		if( action == GLFW_PRESS ) {
+			switch( key ) {
+			  case 'Z': {									// Back button on pause menu
+				switch( menuState ) {
+				  case 0: paused = !paused; unpause( ); break;
+				  case 1: menuState = 0; break;
+				  default: break;
+				}
+				break;
+			  }
+			  case 'X': {									// Selection button on pause menu
+				switch( menuState ) {
+				  case 0: menuState = selection + 1; break;
+				  case 1: if( player->weapon == 1 || player->chargeTime.get_ticks( ) == 0 ) {
+					player->chargeTime.stop( ); player->weapon = selection + 1; } break;
+				  default: break;
+				}
+				break;
+			  }
+			  case GLFW_KEY_UP: {
+				selection--;
+				switch( menuState ) {
+				  case 0: {
+					if( selection < 0 )
+						selection = 3;
+					break;
+				  }
+				  case 1: {
+					if( selection < 0 )
+						selection = player->equips.size( ) - 1;
+					break;
+				  }
+				  case 2: {
+					if( selection < 0 )
+						selection = player->items.size( ) - 1;
+					break;
+				  }
+				  default: break;
+				}
+				break;
+			  }
+			  case GLFW_KEY_DOWN: {
+				selection++;
+				switch( menuState ) {
+				  case 0: {
+					if( selection > 3 )
+						selection = 0;
+					break;
+				  }
+				  case 1: {
+					if( selection > player->equips.size( ) - 1 )
+						selection = 0;
+					break;
+				  }
+				  case 2: {
+					if( selection > player->items.size( ) - 1 )
+						selection = 0;
+					break;
+				  }
+				  default: break;
+				}
+				break;
+			  }
+			  case GLFW_KEY_SPACE: {
+				paused = !paused;
+				unpause( );
+				break;
+			  }
+			  case GLFW_KEY_ESC: {
+				quit( 0 );
+			  }
+			}
+		}
+	}
+
+	// Gameplay controls
+	else {
+		if( action == GLFW_PRESS ) {						// Pressing keys
+			switch( key ) {
+			  case 'Z': {									// Jump!
+				if( player->crouching && player->canDrop ) {
+					player->stand( );
+					player->pos.y += 18.f;					// Crouch coefficient
+					player->canDrop = false;
+				}
+				else if( player->canJump ) {
+					player->jump( );
+					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->jumpSFX, false, &sfxChannel ) );
+					sfxChannel->setVolume( 0.2f );
+				}
+				break;
+			  }
+			  case 'X': {									// Shoot!
+				if( !player->chargeTime.is_started( ) ) {
+				switch( player->weapon ) {					// Different shot depending on the weapon you use
+				  case 1: {										// Blaster
+					Vector2D start = Vector2D( player->dir*15.f, 21.f - (player->crouching?1.f:0.f) );
+					if( player->dir == 1 )
+						start.x += player->w - 11;
+					bullets.push_back( new BlasterShot( true, player->pos + start, Vector2D( player->dir*650.f ) ) );
+					player->shoot( );
+					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->blstSFX, false, &sfxChannel ) );
+					sfxChannel->setVolume( 0.2f );
+					break;
+				  }
+				  case 2: {										// Sword
+					Vector2D start = Vector2D( player->dir*65.f, 20.f - (player->crouching?1.f:0.f) );
+					if( player->dir == 1 )
+						start.x += player->w - 52;
+					bullets.push_back( new SwordSlash( true, player->dir, player->pos + start ) );
+					player->shoot( );
+					FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->swrdSFX, false, &sfxChannel ) );
+					sfxChannel->setVolume( 0.2f );
+					break;
+				  }
+				}
+				}
+				break;
+			  }
+			  case 'C': {									// Switch weapons
+				if( !player->chargeTime.is_started( ) ) {
+					if( player->offHandWeap != 0 ) {
+						int temp = player->weapon;
+						player->setWeap( player->offHandWeap );
+						player->offHandWeap = temp;
+					}
+				}
+				break;
+			  }
+			  case GLFW_KEY_DOWN: {							// Crouch!
+				player->crouch( );
+				break;
+			  }
+			  case GLFW_KEY_SPACE: {						// Pause
+				paused = !paused;
+				pause( );
+				break;
+			  }
+			  case GLFW_KEY_ESC: {
+				quit( 0 );
+			  }
+			}
+		}
+		else {												// Releasing keys
+			switch( key ) {
+			  case 'X': {									// Charge shot!
+				if( player->chargeCur != 0.f ) {
+				float charge = player->chargeCur / 100.f;
+				player->chargeCur = 0.f;
+				switch( player->weapon ) {					// Different shot depending on the weapon you use
+				  case 1: {										// Blaster
+					if( charge == 1.f ) {
+						Vector2D start = Vector2D( player->dir*15.f, 21.f - (player->crouching?1.f:0.f) );
+						if( player->dir == 1 )
+							start.x += player->w - 11;
+						bullets.push_back( new BlasterShot( true, player->pos + start, Vector2D( player->dir*650.f ) ) );
+						player->shoot( );
+						FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->blstSFX, false, &sfxChannel ) );
+						sfxChannel->setVolume( 0.2f );
+					}
+					break;
+				  }
+				  case 2: {										// Sword
+					if( charge == 1.f ) {
+						Vector2D start = Vector2D( player->dir*65.f, 20.f - (player->crouching?1.f:0.f) );
+						if( player->dir == 1 )
+							start.x += player->w - 52;
+						bullets.push_back( new SwordSlash( true, player->dir, player->pos + start ) );
+						player->shoot( );
+						FmodErrorCheck( fmodSystem->playSound( FMOD_CHANNEL_FREE, player->swrdSFX, false, &sfxChannel ) );
+						sfxChannel->setVolume( 0.2f );
+					}
+					break;
+				  }
+				}
+				}
+				break;
+				}
+			  case GLFW_KEY_DOWN: {
+				player->stand( );
+				break;
+			  }
+			}
+		}
+	}
 }
 
 Alonebot* Level::getPlayer( ) {

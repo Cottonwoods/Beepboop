@@ -28,8 +28,9 @@ class Alonebot : public Organ {
 	bool visited[MAX_ROOMS];
 	Vector2D armOffset;
 	std::set<int> items;
+	std::set<int> equips;
 	int maxHP, currentHP;
-	int weapon, chargeMax;
+	int weapon, offHandWeap, chargeMax;
 	float jumpSpeed, chargeCur, chargeInc;
 	Timer jumpTime, courage, idle, chargeTime;
 	int jumpStart, shotStart, crouchStart, deathStart;
@@ -40,12 +41,13 @@ class Alonebot : public Organ {
 	~Alonebot( );
 
 	void init( FMOD::System* fmodSys );
+	void add( Item* i );
 	void jump( );
 	void stand( );
 	void shoot( );
 	void crouch( );
 	void drawHP( );
-	int getDeath( );
+	int getDeathTime( );
 	GLuint getTex( );
 	GLuint getArm( );
 	int getCourage( );

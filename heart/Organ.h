@@ -248,6 +248,7 @@ class Zombie : public Enemy {
 class Item : public Organ {
   public:
 	int id;
+	bool equip;
 
 	Item( Vector2D p = Vector2D( ) );
 	virtual ~Item( );

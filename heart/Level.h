@@ -62,7 +62,7 @@ class Level {									// Generic level template
   public:
 	int area;
 	bool paused;
-	int selection;
+	int selection, menuState;
 	int optionValues[6];
 	GLuint background, backbackground;
 	float cameraX, cameraY;						// Camera position, might change to Vector2D ?

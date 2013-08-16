@@ -1,26 +1,20 @@
-#include "Level.h"
+#include "Menu.h"
 
 
 class Game {
   private:
 	int screenWidth, screenHeight, curLevel;
-	float ratio;
-	bool title;
+	float ratio;									// Scaling ratio
+	bool title;										// Whether you are at the title screen
 
-	static const int MAX_AREAS = 2;
+	Menu* pauseMenu;								// Holds logic and assets for the menu
 
-	GLuint fadeShade,
-		deathShade,
-		pauseMenu;
-	Organ *pauseSelect, *fullMap, *unseen, *here;
-	Organ* areaTexts[MAX_AREAS];
-	Organ* areaMaps[MAX_AREAS];
-
+	GLuint fadeShade, deathShade;
 	float fadeAlpha;
 	Timer fade;
 
-	FMOD::System* fmodSystem;					// Variable for talking to FMOD
-	FMOD::Sound* music;							// Current music being played
+	FMOD::System* fmodSystem;						// Variable for talking to FMOD
+	FMOD::Sound* music;								// Current music being played
 	FMOD::Channel* musicChannel;
 	FMOD::Channel* sfxChannel;
 
@@ -32,8 +26,10 @@ class Game {
 	void draw_bg( GLuint bg, float p = 1.f, bool stretch = true );
 	void draw_bg( );
 	void draw_map( );
+	void draw_menu( );
 	void draw_title( );
 	void draw_screen( );
+
 	void pre_screen( );
 	void post_screen( );
 	void load_screen( bool post = false );

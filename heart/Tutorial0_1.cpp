@@ -28,13 +28,13 @@ Level( r, entrance, p, fsys, sfx ) {
 	// Add static level objects to array
 	objects.push_back( new Box( 0.f, 376.f, levelWidth ) );					// Ground floor
 	objects.push_back( new Box( 0.f, 176.f, 92 ) );							// Left door platform
-	objects.push_back( new Dropbox( 110.f, 234.f, 48 ) );
-	objects.push_back( new Dropbox( 188.f, 292.f, 48 ) );					// Staircase platforms
+	objects.push_back( new Dropbox( 100.f, 234.f, 54 ) );
+	objects.push_back( new Dropbox( 180.f, 292.f, 54 ) );					// Staircase platforms
 	objects.push_back( new Box( 270.f, 344.f, 48 ) );
-	objects.push_back( new Box( 218.f, 180.f, 52 ) );						// Floating platform at start
-	objects.push_back( new Box( 378.f, 156.f, 52 ) );						// Floating platforms leading to edge
-	objects.push_back( new Box( 538.f, 132.f, 52 ) );
-	objects.push_back( new Box( 698.f, 108.f, 52 ) );						// Highest platform, slightly longer
+	objects.push_back( new Box( 218.f, 180.f, 64 ) );						// Floating platform at start
+	objects.push_back( new Box( 378.f, 156.f, 64 ) );						// Floating platforms leading to edge
+	objects.push_back( new Box( 538.f, 132.f, 64 ) );
+	objects.push_back( new Box( 698.f, 108.f, 64 ) );						// Highest platform, slightly longer
 	objects.push_back( new Box( 874.f, 156.f, 128 ) );						// Two long platforms
 	objects.push_back( new Box( 1126.f, 166.f, 128 ) );						//  before the edge
 	objects.push_back( new Box( 1368.f, 176.f, 72 ) );						// Edge platform with door

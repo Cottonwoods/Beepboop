@@ -120,17 +120,17 @@ void Title::handle_key( int key, int action ) {
 				  case 0: {
 					levelSwitch = true;
 					break;
-				}
+				  }
 				  case 1: {
 					selection = 0;
 					optionMenu = true;
 					background = options[1][selection][optionValues[selection]];
 					backbackground = options[0][optionValues[0]][optionValues[1]];
 					break;
-				}
+				  }
 				  case 2: {
 					quit( 0 );
-				}
+				  }
 				}
 			}
 			break;

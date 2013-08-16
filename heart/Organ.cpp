@@ -1221,9 +1221,11 @@ void Zombie::walk( float dt ) {
 Item::Item( Vector2D p ) {
 	w = 0;
 	h = 0;
+	id = 0;
 	pos = p;
 	vertical = false;
 	movable = false;
+	equip = false;
 	solid = true;
 	loadVA( 0.f, 0.f );
 }
@@ -1237,6 +1239,7 @@ Blaster::Blaster( Vector2D p ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = true;
 	id = 1;
 	dir = 1;
 	
@@ -1259,6 +1262,7 @@ Sword::Sword( Vector2D p ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = true;
 	id = 2;
 	dir = 1;
 	
@@ -1281,6 +1285,7 @@ HeartUp::HeartUp( Vector2D p, int i ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = false;
 	id = i;
 	dir = 1;
 	

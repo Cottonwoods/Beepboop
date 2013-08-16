@@ -26,6 +26,7 @@ Alonebot::Alonebot( float x, float y, int d, Alonebot* p ) {
 		maxHP = 3;													// TODO: Load shit from savefile
 		currentHP = 3;
 		setWeap( 0 );
+		offHandWeap = 0;
 		chargeCur = 0.f;
 		chargeInc = 0.f;
 		chargeMax = 0;
@@ -37,8 +38,11 @@ Alonebot::Alonebot( float x, float y, int d, Alonebot* p ) {
 		maxHP = p->maxHP;
 		currentHP = p->currentHP;
 		setWeap( p->weapon );
+		offHandWeap = p->offHandWeap;
 		for( std::set<int>::iterator i = p->items.begin(); i != p->items.end(); ++i )
 			items.emplace( *i );
+		for( std::set<int>::iterator i = p->equips.begin(); i != p->equips.end(); ++i )
+			equips.emplace( *i );
 		for( int i=0; i<MAX_ROOMS; i++ )
 			visited[i] = p->visited[i];
 		chargeCur = p->chargeCur;
@@ -148,6 +152,19 @@ void Alonebot::init( FMOD::System* fmodSys ) {
 	weapFrames[2] = swrdFrames;
 	
 	heartBeat.start( );
+}
+
+void Alonebot::add( Item* i ) {
+	// Add equipment to equipment inventory
+	if( i->equip )
+		equips.emplace( i->id );
+	// Or an item to item inventory
+	else {
+		items.emplace( i->id );
+	// If it's a heart container, increase maxHP and restore to full
+		if( i->id >= 100 )
+			currentHP = maxHP = maxHP + 1;
+	}
 }
 
 GLuint Alonebot::getTex( ) {
@@ -273,7 +290,7 @@ GLuint Alonebot::getArm( ) {
 	return shotFrames[temp];
 }
 
-int Alonebot::getDeath( ) {
+int Alonebot::getDeathTime( ) {
 	if( !movable )
 		return heartBeat.get_ticks( ) - deathStart;
 	return 0;
@@ -571,25 +588,25 @@ void Alonebot::setWeap( int w ) {
 	if( movable ) {
 		switch( w ) {
 		  case 0: {
-			  weapon = 0;
-			  chargeCur = 0.f;
-			  chargeInc = 0.f;
-			  chargeMax = 1;
-			  break;
+			weapon = 0;
+			chargeCur = 0.f;
+			chargeInc = 0.f;
+			chargeMax = 1;
+			break;
 		  }
-		  case 1: {
-			  weapon = 1;
-			  chargeCur = 0.f;
-			  chargeInc = 100.f;
-			  chargeMax = 80;
-			  break;
+		  case 1: {													// Blaster
+			weapon = 1;
+			chargeCur = 0.f;
+			chargeInc = 100.f;
+			chargeMax = 80;
+			break;
 		  }
-		  case 2: {
-			  weapon = 2;
-			  chargeCur = 0.f;
-			  chargeInc = 70.f;
-			  chargeMax = 240;
-			  break;
+		  case 2: {													// Sword
+			weapon = 2;
+			chargeCur = 0.f;
+			chargeInc = 70.f;
+			chargeMax = 240;
+			break;
 		  }
 		}
 	}
