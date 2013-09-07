@@ -31,7 +31,7 @@ Level( r, entrance, p, fsys, sfx ) {
 	objects.push_back( new Box( levelWidth - 158.f, 128.f, 16, 64 ) );		// Edge platform rail
 
 	// Add item(s)
-	if( player->items.find( 1 ) == player->items.end( ) )
+	if( player->equips.find( 1 ) == player->equips.end( ) )
 		items.push_back( new Blaster( Vector2D( levelWidth - 124.f, 152.f ) ) );
 
 	// Add NPC(s)

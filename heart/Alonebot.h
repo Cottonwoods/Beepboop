@@ -6,7 +6,7 @@ class Alonebot : public Organ {
 	static const int COURAGEDURATION = 1000;
 	static const int COURAGETIMEOUT = 250;
 
-	GLuint HP[4];
+	GLuint HP[7];
 	GLuint arm[1];
 	GLuint charge[3];
 	GLuint crouchFrame;

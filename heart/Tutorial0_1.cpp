@@ -28,20 +28,20 @@ Level( r, entrance, p, fsys, sfx ) {
 	// Add static level objects to array
 	objects.push_back( new Box( 0.f, 376.f, levelWidth ) );					// Ground floor
 	objects.push_back( new Box( 0.f, 176.f, 92 ) );							// Left door platform
-	objects.push_back( new Dropbox( 100.f, 234.f, 54 ) );
-	objects.push_back( new Dropbox( 180.f, 292.f, 54 ) );					// Staircase platforms
-	objects.push_back( new Box( 270.f, 344.f, 48 ) );
+	objects.push_back( new Dropbox( 100.f, 234.f, 64 ) );					// Staircase platforms
+	objects.push_back( new Dropbox( 180.f, 292.f, 64 ) );
+	objects.push_back( new Box( 270.f, 344.f, 57 ) );						//  Last staircase platform before sawblade
 	objects.push_back( new Box( 218.f, 180.f, 64 ) );						// Floating platform at start
 	objects.push_back( new Box( 378.f, 156.f, 64 ) );						// Floating platforms leading to edge
 	objects.push_back( new Box( 538.f, 132.f, 64 ) );
-	objects.push_back( new Box( 698.f, 108.f, 64 ) );						// Highest platform, slightly longer
+	objects.push_back( new Box( 698.f, 108.f, 72 ) );						// Highest platform, slightly longer
 	objects.push_back( new Box( 874.f, 156.f, 128 ) );						// Two long platforms
 	objects.push_back( new Box( 1126.f, 166.f, 128 ) );						//  before the edge
 	objects.push_back( new Box( 1368.f, 176.f, 72 ) );						// Edge platform with door
-	objects.push_back( new Box( 452.f, 360.f, 50 ) );
-	objects.push_back( new Box( 652.f, 360.f, 50 ) );
-	objects.push_back( new Box( 852.f, 360.f, 50 ) );
-	objects.push_back( new Box( 1052.f, 360.f, 50 ) );
+	objects.push_back( new Box( 452.f, 360.f, 75 ) );						// Three bottom platforms between sawblades
+	objects.push_back( new Box( 652.f, 360.f, 75 ) );
+	objects.push_back( new Box( 852.f, 360.f, 75 ) );
+	objects.push_back( new Box( 1052.f, 360.f, 75 ) );
 
 	// Add doors
 	doors.push_back( new Door( 0.f, 112.f, 1, false, 0, 2 ) );				// Top left door
@@ -61,10 +61,10 @@ Level( r, entrance, p, fsys, sfx ) {
 	objects.push_back( new Box( levelWidth - 16.f, 312.f, 16, 4 ) );
 
 	// Add enemies
-	enemies.push_back( new Sawblade( 150, Vector2D( 302.f, 360.f ) ) );
-	enemies.push_back( new Sawblade( 150, Vector2D( 502.f, 360.f ) ) );
-	enemies.push_back( new Sawblade( 150, Vector2D( 702.f, 360.f ) ) );
-	enemies.push_back( new Sawblade( 150, Vector2D( 902.f, 360.f ) ) );
+	enemies.push_back( new Sawblade( 125, Vector2D( 327.f, 360.f ) ) );
+	enemies.push_back( new Sawblade( 125, Vector2D( 527.f, 360.f ) ) );
+	enemies.push_back( new Sawblade( 125, Vector2D( 727.f, 360.f ) ) );
+	enemies.push_back( new Sawblade( 125, Vector2D( 927.f, 360.f ) ) );
 
 	// Start the heart
 	player->init( fmodSystem );

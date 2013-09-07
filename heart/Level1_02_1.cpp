@@ -26,7 +26,7 @@ Level( r, entrance, p, fsys, sfx ) {
 	objects.push_back( new Box( levelWidth - 16.f, 0.f, 16, 112 ) );
 	
 	// Add item(s)
-	if( player->items.find( 2 ) == player->items.end( ) )
+	if( player->equips.find( 2 ) == player->equips.end( ) )
 		items.push_back( new Sword( Vector2D( levelWidth - 164.f, 132.f ) ) );
 
 	// Add doors

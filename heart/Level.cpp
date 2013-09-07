@@ -21,16 +21,16 @@ Box::~Box( ) {
 }
 
 void Box::loadVA( ) {
-	Organ::loadVA( (float)w, (float)h );
+	Organ::loadVA( w, h );
 
 	tvertices[0].x = 0.f;									// Top left
 	tvertices[0].y = 0.f;
-	tvertices[1].x = (1.f * w)/defaultWidth;				// Top rite
+	tvertices[1].x = (1.f * w) / defaultWidth;						// Top rite
 	tvertices[1].y = 0.f;
-	tvertices[2].x = (1.f * w)/defaultWidth;				// Bot rite
-	tvertices[2].y = (1.f * h)/defaultHeight;
+	tvertices[2].x = (1.f * w) / defaultWidth;						// Bot rite
+	tvertices[2].y = (1.f * h) / defaultHeight;
 	tvertices[3].x = 0.f;									// Bot left
-	tvertices[3].y = (1.f * h)/defaultHeight;
+	tvertices[3].y = (1.f * h) / defaultHeight;
 }
 
 
@@ -110,7 +110,7 @@ Door::Door( float a, float b, int d, bool topper, int t, int e, int width, int h
 		texture = LoadTexture( std::string( "..\\anims\\level\\door.png" ) );
 	defaultWidth = w;
 	defaultHeight = h;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 }
 
 Door::~Door( ) {
@@ -569,8 +569,14 @@ void Level::handle_key( int key, int action ) {
 			  case 'X': {									// Selection button on pause menu
 				switch( menuState ) {
 				  case 0: menuState = selection + 1; break;
-				  case 1: if( player->weapon == 1 || player->chargeTime.get_ticks( ) == 0 ) {
-					player->chargeTime.stop( ); player->weapon = selection + 1; } break;
+				  case 1: {
+					if( !player->chargeTime.is_started( ) && player->weapon != selection + 1 ) {
+						int temp = player->weapon;
+						player->setWeap( selection + 1 );
+						player->offHandWeap = temp;
+					}
+					break;
+				  }
 				  default: break;
 				}
 				break;

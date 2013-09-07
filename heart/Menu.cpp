@@ -57,13 +57,15 @@ Organ* Menu::getFullMap( ) {
 	return fullMap;
 }
 
-Organ* Menu::setUnseen( Vector2D newPos ) {
-	unseen->pos = newPos;
+Organ* Menu::setUnseen( Vector2Di newPos ) {
+	unseen->pos.x = (float)newPos.x;
+	unseen->pos.y = (float)newPos.y;
 	return unseen;
 }
 
-Organ* Menu::setHere( Vector2D newPos ) {
-	here->pos = newPos;
+Organ* Menu::setHere( Vector2Di newPos ) {
+	here->pos.x = (float)newPos.x;
+	here->pos.y = (float)newPos.y;
 	return here;
 }
 

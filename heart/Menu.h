@@ -21,8 +21,8 @@ class Menu {
 	Organ* getMap( int area );
 	Organ* getFullMap( );
 
-	Organ* setUnseen( Vector2D newPos );
-	Organ* setHere( Vector2D newPos );
+	Organ* setUnseen( Vector2Di newPos );
+	Organ* setHere( Vector2Di newPos );
 
 	GLuint getMenu( int menuState );
 	Organ* getLongSelect( );

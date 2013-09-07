@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-static Level* start;													// First level that loads
+static Level* start;												// First level that loads
 
 // Drawing code !!
 void Game::draw_box( Box* b ) {
@@ -11,7 +11,7 @@ void Game::draw_box( Box* b ) {
 	glBindTexture( GL_TEXTURE_2D, b->getTex( ) );
 	//Enable vertex arrays
 	//Set vertex data
-	glVertexPointer( 2, GL_FLOAT, 0, b->vertices );
+	glVertexPointer( 2, GL_INT, 0, b->vertices );
 	glEnableClientState( GL_VERTEX_ARRAY );
 	glTexCoordPointer(2, GL_FLOAT, 0, b->tvertices );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -38,9 +38,9 @@ void Game::draw_organ( Organ* o ) {
 	glBindTexture( GL_TEXTURE_2D, o->getTex( ) );
 	//Enable vertex arrays
 	//Set vertex data
-	glVertexPointer( 2, GL_FLOAT, 0, o->vertices );
+	glVertexPointer( 2, GL_INT, 0, o->vertices );
 	glEnableClientState( GL_VERTEX_ARRAY );
-	glTexCoordPointer(2, GL_FLOAT, 0, o->tvertices );
+	glTexCoordPointer(2, GL_INT, 0, o->tvertices );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//Draw quad using vertex data
 	glDrawArrays( GL_QUADS, 0, 4 );
@@ -52,18 +52,18 @@ void Game::draw_organ( Organ* o ) {
 
 void Game::draw_arm( Alonebot* p ) {
 	glPushMatrix( );
-	float w, h;
+	int w, h;
 	glTranslatef( p->pos.x, p->pos.y, 0.f );
 	// Bind texture
 	glBindTexture( GL_TEXTURE_2D, p->getArm() );
-	glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-	glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	p->loadVA( w, h );
 	//Enable vertex arrays
 	//Set vertex data
-	glVertexPointer( 2, GL_FLOAT, 0, p->vertices );
+	glVertexPointer( 2, GL_INT, 0, p->vertices );
 	glEnableClientState( GL_VERTEX_ARRAY );
-	glTexCoordPointer(2, GL_FLOAT, 0, p->tvertices );
+	glTexCoordPointer(2, GL_INT, 0, p->tvertices );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//Draw quad using vertex data
 	glDrawArrays( GL_QUADS, 0, 4 );
@@ -74,7 +74,7 @@ void Game::draw_arm( Alonebot* p ) {
 };
 
 void Game::draw_body( Alonebot* p, GLuint tex ) {
-	float w, h;
+	int w, h;
 	glPushMatrix( );
 	glTranslatef( p->pos.x, p->pos.y, 0.f );
 
@@ -93,14 +93,14 @@ void Game::draw_body( Alonebot* p, GLuint tex ) {
 	}
 	// Bind texture
 	glBindTexture( GL_TEXTURE_2D, tex );
-	glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-	glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	p->loadVA( w, h );
 	//Enable vertex arrays
 	//Set vertex data
-	glVertexPointer( 2, GL_FLOAT, 0, p->vertices );
+	glVertexPointer( 2, GL_INT, 0, p->vertices );
 	glEnableClientState( GL_VERTEX_ARRAY );
-	glTexCoordPointer(2, GL_FLOAT, 0, p->tvertices );
+	glTexCoordPointer(2, GL_INT, 0, p->tvertices );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//Draw quad using vertex data
 	glDrawArrays( GL_QUADS, 0, 4 );
@@ -128,43 +128,44 @@ void Game::draw_player( Alonebot* p ) {
 
 	p->armOffset = Vector2D( 0, 0 );
 
-	p->loadVA( (float)p->defaultWidth, (float)p->defaultHeight );
+	p->loadVA( p->defaultWidth, p->defaultHeight );
 };
 
 void Game::draw_bg( GLuint bg, float p, bool stretch ) {
-	float w = (float)start->levelWidth;									// Current level width
-	float h = (float)start->levelHeight;								// Current level height
+	int w = start->levelWidth;										// Current level width
+	int h = start->levelHeight;										// Current level height
 
 	if( !stretch )
-		h = 480.f;
+		h = 480;
 	
 	glPushMatrix( );
-	if( w != 640.f && p != 0.f )
-		glTranslatef( ( w -  w / p ) * ( start->cameraX / ( w - 640.f ) ), start->cameraY, 0.f );
+	if( w != 640 && p != 0.f )
+		glTranslatef( ( w -  w / p ) * ( start->cameraX / ( w - 640 ) ), start->cameraY, 0.f );
 	glBindTexture( GL_TEXTURE_2D, bg );
-	Vector2D vertices[4], tvertices[4];
-	vertices[0].x = 0.f;												// Top left
-	vertices[0].y = 0.f;
-	vertices[1].x = w / p;												// Top rite
-	vertices[1].y = 0.f;
-	vertices[2].x = w / p;												// Bot rite
+	Vector2Di vertices[4], tvertices[4];
+	vertices[0].x = 0;													// Top left
+	vertices[0].y = 0;
+	vertices[1].x = (int)(w / p);									// Top rite
+	vertices[1].y = 0;
+	vertices[2].x = (int)(w / p);									// Bot rite
 	vertices[2].y = h;
-	vertices[3].x = 0.f;												// Bot left
+	vertices[3].x = 0;												// Bot left
 	vertices[3].y = h;
 
-	tvertices[0].x = 0.f;												// Top left
-	tvertices[0].y = 0.f;
-	tvertices[1].x = 1.f;												// Top rite
-	tvertices[1].y = 0.f;
-	tvertices[2].x = 1.f;												// Bot rite
-	tvertices[2].y = 1.f;
-	tvertices[3].x = 0.f;												// Bot left
-	tvertices[3].y = 1.f;
+	tvertices[0].x = 0;												// Top left
+	tvertices[0].y = 0;
+	tvertices[1].x = 1;												// Top rite
+	tvertices[1].y = 0;
+	tvertices[2].x = 1;												// Bot rite
+	tvertices[2].y = 1;
+	tvertices[3].x = 0;												// Bot left
+	tvertices[3].y = 1;
+
 	//Enable vertex arrays
 	//Set vertex data
-	glVertexPointer( 2, GL_FLOAT, 0, vertices );
+	glVertexPointer( 2, GL_INT, 0, vertices );
 	glEnableClientState( GL_VERTEX_ARRAY );
-	glTexCoordPointer(2, GL_FLOAT, 0, tvertices );
+	glTexCoordPointer(2, GL_INT, 0, tvertices );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//Draw quad using vertex data
 	glDrawArrays( GL_QUADS, 0, 4 );
@@ -175,11 +176,15 @@ void Game::draw_bg( GLuint bg, float p, bool stretch ) {
 }
 
 void Game::draw_bg( ) {
-	draw_bg( start->backbackground, 1.25f );							// Background texture, parallax factor
-	if( start->levelWidth == 640 )
+	
+	if( start->levelWidth == 640 ) {
+		draw_bg( start->backbackground, 1.f );						// Background texture, parallax factor
 		draw_bg( start->background, 1.f );
-	else
+	}
+	else {
+		draw_bg( start->backbackground, 1.25f );
 		draw_bg( start->background, 1.125f );
+	}
 };
 
 void Game::draw_map( ) {
@@ -197,25 +202,25 @@ void Game::draw_map( ) {
 
 	// Draw over the spots you have not been
 	Alonebot* player = start->getPlayer();
-	Vector2D tempPos = Vector2D( );
+	Vector2Di tempPos = Vector2Di( );
 	for( int i=0; i<player->MAX_ROOMS; i++ ) {
 		if( !player->visited[i] ) {
 			switch( i ) {
-			  case 0: tempPos = Vector2D( 10.f, 183.f ); break;
-			  case 1: tempPos = Vector2D( 25.f, 183.f ); break;
-			  case 2: tempPos = Vector2D( 40.f, 183.f ); break;
-			  case 3: tempPos = Vector2D( 55.f, 183.f ); break;
-			  case 4: tempPos = Vector2D( 70.f, 183.f ); break;
-			  case 6: tempPos = Vector2D( 85.f, 183.f ); break;
-			  case 7: tempPos = Vector2D( 100.f, 183.f ); break;
-			  case 8: tempPos = Vector2D( 100.f, 168.f ); break;
-			  case 9: tempPos = Vector2D( 115.f, 183.f ); break;
-			  case 10: tempPos = Vector2D( 85.f, 168.f ); break;
-			  case 11: tempPos = Vector2D( 70.f, 168.f ); break;
-			  case 12: tempPos = Vector2D( 115.f, 198.f ); break;
-			  case 13: tempPos = Vector2D( 115.f, 168.f ); break;
-			  case 14: tempPos = Vector2D( 130.f, 168.f ); break;
-			  case 16: tempPos = Vector2D( 115.f, 213.f ); break;
+			  case 0: tempPos = Vector2Di( 10, 183 ); break;
+			  case 1: tempPos = Vector2Di( 25, 183 ); break;
+			  case 2: tempPos = Vector2Di( 40, 183 ); break;
+			  case 3: tempPos = Vector2Di( 55, 183 ); break;
+			  case 4: tempPos = Vector2Di( 70, 183 ); break;
+			  case 6: tempPos = Vector2Di( 85, 183 ); break;
+			  case 7: tempPos = Vector2Di( 100, 183 ); break;
+			  case 8: tempPos = Vector2Di( 100, 168 ); break;
+			  case 9: tempPos = Vector2Di( 115, 183 ); break;
+			  case 10: tempPos = Vector2Di( 85, 168 ); break;
+			  case 11: tempPos = Vector2Di( 70, 168 ); break;
+			  case 12: tempPos = Vector2Di( 115, 198 ); break;
+			  case 13: tempPos = Vector2Di( 115, 168 ); break;
+			  case 14: tempPos = Vector2Di( 130, 168 ); break;
+			  case 16: tempPos = Vector2Di( 115, 213 ); break;
 			}
 			draw_organ( pauseMenu->setUnseen( tempPos ) );
 		}
@@ -223,21 +228,21 @@ void Game::draw_map( ) {
 
 	// Draw the player position
 	switch( curLevel ) {
-	  case 0: tempPos = Vector2D( 10.f, 183.f ); break;
-	  case 1: tempPos = Vector2D( 25.f, 183.f ); break;
-	  case 2: tempPos = Vector2D( 40.f, 183.f ); break;
-	  case 3: tempPos = Vector2D( 55.f, 183.f ); break;
-	  case 4: case 5: tempPos = Vector2D( 70.f, 183.f ); break;
-	  case 6: tempPos = Vector2D( 85.f, 183.f ); break;
-	  case 7: tempPos = Vector2D( 100.f, 183.f ); break;
-	  case 8: tempPos = Vector2D( 100.f, 168.f ); break;
-	  case 9: tempPos = Vector2D( 115.f, 183.f ); break;
-	  case 10: tempPos = Vector2D( 85.f, 168.f ); break;
-	  case 11: tempPos = Vector2D( 70.f, 168.f ); break;
-	  case 12: tempPos = Vector2D( 115.f, 198.f ); break;
-	  case 13: tempPos = Vector2D( 115.f, 168.f ); break;
-	  case 14: case 15: tempPos = Vector2D( 130.f, 168.f ); break;
-	  case 16: tempPos = Vector2D( 115.f, 213.f ); break;
+	  case 0: tempPos = Vector2Di( 10, 183 ); break;
+	  case 1: tempPos = Vector2Di( 25, 183 ); break;
+	  case 2: tempPos = Vector2Di( 40, 183 ); break;
+	  case 3: tempPos = Vector2Di( 55, 183 ); break;
+	  case 4: case 5: tempPos = Vector2Di( 70, 183 ); break;
+	  case 6: tempPos = Vector2Di( 85, 183 ); break;
+	  case 7: tempPos = Vector2Di( 100, 183 ); break;
+	  case 8: tempPos = Vector2Di( 100, 168 ); break;
+	  case 9: tempPos = Vector2Di( 115, 183 ); break;
+	  case 10: tempPos = Vector2Di( 85, 168 ); break;
+	  case 11: tempPos = Vector2Di( 70, 168 ); break;
+	  case 12: tempPos = Vector2Di( 115, 198 ); break;
+	  case 13: tempPos = Vector2Di( 115, 168 ); break;
+	  case 14: case 15: tempPos = Vector2Di( 130, 168 ); break;
+	  case 16: tempPos = Vector2Di( 115, 213 ); break;
 	}
 	draw_organ( pauseMenu->setHere( tempPos ) );
 
@@ -299,8 +304,8 @@ void Game::draw_menu( ) {
 
 void Game::draw_title( ) {
 	// Draw the title screen
-	draw_bg( start->backbackground, 1.125f );
-	draw_bg( start->background, 1.125f );
+	draw_bg( start->backbackground, 1.f );
+	draw_bg( start->background, 1.f );
 };
 
 void Game::draw_screen( ) {
@@ -330,7 +335,7 @@ void Game::draw_screen( ) {
 			std::vector<Box*> objects = start->getScene( );
 			// Draw each static object
 			for( unsigned short i=0; i<objects.size( ); i++ )
-				draw_organ( objects[i] );
+				draw_box( objects[i] );
 
 			// Break on through to the other side
 			std::vector<Door*> doors = start->getDoors( );
@@ -555,6 +560,8 @@ void Game::load_level( int lev, int entrance ) {
 		s = new Level1_11_1( ratio, entrance, p, fmodSystem, sfxChannel ); title = false; break;
 	  case 16:
 		s = new Level1_12( ratio, entrance, p, fmodSystem, sfxChannel ); title = false; break;
+	  case 17:
+		s = new Level2_01( ratio, entrance, p, fmodSystem, sfxChannel ); title = false; break;
 	  case INT_MAX: {
 		load_screen( true ); s = new Title( ratio, entrance, p, fmodSystem, sfxChannel ); title = true; break;
 	  }

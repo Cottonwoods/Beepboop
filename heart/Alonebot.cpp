@@ -23,8 +23,8 @@ Alonebot::Alonebot( float x, float y, int d, Alonebot* p ) {
 	armOffset = Vector2D( 0.f, 0.f );
 
 	if( p == 0 || p->currentHP < 1 ) {
-		maxHP = 3;													// TODO: Load shit from savefile
-		currentHP = 3;
+		maxHP = 12;													// TODO: Load shit from savefile
+		currentHP = 12;
 		setWeap( 0 );
 		offHandWeap = 0;
 		chargeCur = 0.f;
@@ -95,7 +95,7 @@ void Alonebot::init( FMOD::System* fmodSys ) {
 	texture = LoadTexture( std::string( "..\\anims\\chars\\alonebot.png" ) );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	defaultHeight = h;
 	defaultWidth = w;
 	arm[0] = LoadTexture( std::string( "..\\anims\\weapons\\arm.png" ) );
@@ -121,10 +121,15 @@ void Alonebot::init( FMOD::System* fmodSys ) {
 		swrdFrames[i] = LoadTexture( std::string( "..\\anims\\weapons\\sword\\sword_" + s.str() ) + ".png" );
 	}
 	crouchFrame = LoadTexture( std::string( "..\\anims\\crouch\\alonebot_crouch.png" ) );
-	for( int i=0; i<4; i++ ) {
+	for( int i=0; i<3; i++ ) {
 		std::stringstream s;
 		s << i;
 		HP[i] = LoadTexture( std::string( "..\\anims\\hp\\hp_" + s.str() + ".png" ) );
+	}
+	for( int i=0; i<4; i++ ) {
+		std::stringstream s;
+		s << i;
+		HP[i+3] = LoadTexture( std::string( "..\\anims\\hp\\hp_3_" + s.str() + ".png" ) );
 	}
 	for( int i=0; i<3; i++ ) {
 		std::stringstream s;
@@ -163,7 +168,7 @@ void Alonebot::add( Item* i ) {
 		items.emplace( i->id );
 	// If it's a heart container, increase maxHP and restore to full
 		if( i->id >= 100 )
-			currentHP = maxHP = maxHP + 1;
+			currentHP = maxHP = maxHP + 4;
 	}
 }
 
@@ -305,18 +310,18 @@ void Alonebot::drawHP( ) {
 		glPushMatrix( );
 		glTranslatef( 8.f, 40.f, 0.f );								// Offset
 		glBindTexture( GL_TEXTURE_2D, charge[0] );
-		float w, h;
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+		int w, h;
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 		glBegin( GL_QUADS );
 			glTexCoord2i( 0, 0 );
-			glVertex3f( 0.f, 0.f, 0.f );
+			glVertex2i( 0, 0 );
 			glTexCoord2i( 1, 0 );
-			glVertex3f( w, 0.f, 0.f );
+			glVertex2i( w, 0 );
 			glTexCoord2i( 1, 1 );
-			glVertex3f( w, h, 0.f );
+			glVertex2i( w, h );
 			glTexCoord2i( 0, 1 );
-			glVertex3f( 0.f, h, 0.f );
+			glVertex2i( 0, h );
 		glEnd( );
 		glTranslatef( 2.f, 2.f, 0.f );
 		glBindTexture( GL_TEXTURE_2D, charge[1] );
@@ -328,48 +333,48 @@ void Alonebot::drawHP( ) {
 			else if( chargeTime.get_ticks( ) >= 100 )
 				chargeTime.stop( );
 		}
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 		if( chargeCur == 0 && chargeTime.is_started( ) ) {			// Cooldown for shooting
-			w *= ( (float)chargeMax - chargeTime.get_ticks( ) ) / chargeMax;
+			w = (int)( w * ( (float)chargeMax - chargeTime.get_ticks( ) ) / chargeMax );
 			if( weapon == 1 )										//  Hidden for blaster
 				w = 0;
 		}
 		else														// And for charging
-			w *= chargeCur / 100.f;
+			w = (int)( w * chargeCur / 100.f );
 		if( w < 0 )
 			w = 0;
 		glBegin( GL_QUADS );
 			glTexCoord2i( 0, 0 );
-			glVertex3f( 0.f, 0.f, 0.f );
+			glVertex2i( 0, 0 );
 			glTexCoord2i( 1, 0 );
-			glVertex3f( w, 0.f, 0.f );
+			glVertex2i( w, 0 );
 			glTexCoord2i( 1, 1 );
-			glVertex3f( w, h, 0.f );
+			glVertex2i( w, h );
 			glTexCoord2i( 0, 1 );
-			glVertex3f( 0.f, h, 0.f );
+			glVertex2i( 0, h );
 		glEnd( );
 		glPopMatrix( );
 	}
 	for( int i=0; i<3; i++ ) {										// Draw HP bar
 		if( i == 1 ) {												// Middle portions
-			for( int j=0; j<maxHP-2; j++ ) {						// For loop drawing middle portions of HP bar
+			for( int j=0; j<maxHP/4-2; j++ ) {						// For loop drawing middle portions of HP bar
 				glPushMatrix( );
 				// Offset
 				glTranslatef( 34.f + 20.f*j, 8.f, 0.f );
 				glBindTexture( GL_TEXTURE_2D, HP[i] );
-				float w, h;
-				glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-				glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+				int w, h;
+				glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+				glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 				glBegin( GL_QUADS );
 					glTexCoord2i( 0, 0 );
-					glVertex3f( 0.f, 0.f, 0.f );
+					glVertex2i( 0, 0 );
 					glTexCoord2i( 1, 0 );
-					glVertex3f( w, 0.f, 0.f );
+					glVertex2i( w, 0 );
 					glTexCoord2i( 1, 1 );
-					glVertex3f( w, h, 0.f );
+					glVertex2i( w, h );
 					glTexCoord2i( 0, 1 );
-					glVertex3f( 0.f, h, 0.f );
+					glVertex2i( 0, h );
 				glEnd( );
 				glPopMatrix( );
 			}
@@ -378,20 +383,20 @@ void Alonebot::drawHP( ) {
 			glPushMatrix( );
 			glTranslatef( 8.f, 8.f, 0.f );							// Offset
 			if( i > 0 )
-				glTranslatef( 26.f + 20.f*(maxHP-2), 0.f, 0.f );	// Alter transformations for last piece
+				glTranslatef( 26.f + 20.f*(maxHP/4-2), 0.f, 0.f );	// Alter transformations for last piece
 			glBindTexture( GL_TEXTURE_2D, HP[i] );
-			float w, h;
-			glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-			glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+			int w, h;
+			glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+			glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 			glBegin( GL_QUADS );
 				glTexCoord2i( 0, 0 );
-				glVertex3f( 0.f, 0.f, 0.f );
+				glVertex2i( 0, 0 );
 				glTexCoord2i( 1, 0 );
-				glVertex3f( w, 0.f, 0.f );
+				glVertex2i( w, 0 );
 				glTexCoord2i( 1, 1 );
-				glVertex3f( w, h, 0.f );
+				glVertex2i( w, h );
 				glTexCoord2i( 0, 1 );
-				glVertex3f( 0.f, h, 0.f );
+				glVertex2i( 0, h );
 			glEnd( );
 			glPopMatrix( );
 		}
@@ -399,20 +404,20 @@ void Alonebot::drawHP( ) {
 
 	for( int i=0; i<currentHP; i++ ) {								// Draw hearts
 		glPushMatrix( );
-		glTranslatef( 14.f + 20.f * i, 8.f, 0.f );					// Offset
-		glBindTexture( GL_TEXTURE_2D, HP[3] );
-		float w, h;
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
-		glGetTexLevelParameterfv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
+		glTranslatef( 14.f + 20.f * (i / 4), 8.f, 0.f );			// Offset
+		glBindTexture( GL_TEXTURE_2D, HP[3 + i % 4] );
+		int w, h;
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
+		glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 		glBegin( GL_QUADS );
 			glTexCoord2i( 0, 0 );
-			glVertex3f( 0.f, 0.f, 0.f );
+			glVertex2i( 0, 0 );
 			glTexCoord2i( 1, 0 );
-			glVertex3f( w, 0.f, 0.f );
+			glVertex2i( w, 0 );
 			glTexCoord2i( 1, 1 );
-			glVertex3f( w, h, 0.f );
+			glVertex2i( w, h );
 			glTexCoord2i( 0, 1 );
-			glVertex3f( 0.f, h, 0.f );
+			glVertex2i( 0, h );
 		glEnd( );
 		glPopMatrix( );
 	}
@@ -436,7 +441,7 @@ void Alonebot::crouch( ) {
 		h -= 18;
 		pos.y += 18.f;
 		defaultHeight = h;
-		loadVA( (float)w, (float)h );
+		loadVA( w, h );
 	}
 }
 
@@ -446,7 +451,7 @@ void Alonebot::stand( ) {
 		h += 18;
 		pos.y -= 18.f;
 		defaultHeight = h;
-		loadVA( (float)w, (float)h );
+		loadVA( w, h );
 		idle.stop( );
 	}
 }
