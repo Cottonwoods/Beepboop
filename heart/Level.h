@@ -3,6 +3,7 @@
 
 class Box : public Organ {
   public:
+	Vector2D tvertices[4];
 	Box( float a = 0.f, float b = 0.f, int width = 32, int height = 16 );
 	~Box( );
 
@@ -12,7 +13,6 @@ class Box : public Organ {
 
 class Dropbox : public Box {
   public:
-	Vector2D vertices[4], tvertices[4];
 	Dropbox( float a = 0.f, float b = 0.f, int width = 32, int height = 4 );
 	~Dropbox( );
 };
@@ -62,7 +62,7 @@ class Level {									// Generic level template
   public:
 	int area;
 	bool paused;
-	int selection;
+	int selection, menuState;
 	int optionValues[6];
 	GLuint background, backbackground;
 	float cameraX, cameraY;						// Camera position, might change to Vector2D ?
@@ -255,4 +255,11 @@ class Level1_12 : public Level {
 	  Level1_12( float r = 1.f, int entrance = 0, Alonebot* p = 0, FMOD::System* fsys = 0, FMOD::Channel* sfx = 0 );
 	  ~Level1_12( );
 	  void process_events( float dt );
+};
+
+class Level2_01 : public Level {
+  public:
+	Level2_01( float r = 1.f, int entrance = 0, Alonebot* p = 0, FMOD::System* fsys = 0, FMOD::Channel* sfx = 0 );
+	~Level2_01( );
+	void process_events( float dt );
 };

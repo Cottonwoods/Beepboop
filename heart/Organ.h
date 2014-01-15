@@ -12,8 +12,9 @@ class Organ {
 	float xspeed, yspeed;
 	bool movable, solid, vertical;
 	int defaultWidth, defaultHeight;
-	Vector2D pos, vertices[4], tvertices[4];
-	Vector2D collisionBox[4];
+	Vector2D pos;
+	// Pointer and texture vertices
+	Vector2Di vertices[4], tvertices[4], collisionBox[4];
 
 	Organ( );
 	Organ( const char* path );
@@ -23,7 +24,7 @@ class Organ {
 	void init( const char* path );
 	virtual GLuint getTex( );
 
-	void loadVA( float w, float h );
+	void loadVA( int w, int h );
 	float dist( Organ* target, bool useX = true, bool useY = true );
 	void adjustCollideBox( float mult = 0.f );
 	Vector2D collides( Organ* target );
@@ -248,6 +249,7 @@ class Zombie : public Enemy {
 class Item : public Organ {
   public:
 	int id;
+	bool equip;
 
 	Item( Vector2D p = Vector2D( ) );
 	virtual ~Item( );

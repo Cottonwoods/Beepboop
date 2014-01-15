@@ -11,7 +11,7 @@ Level( r, entrance, p, fsys, sfx ) {
 	// Initialize backgrounds and music
 	bgMusic = "..\\music\\beat171-restless.mp3";
 	background = LoadTexture( std::string( "..\\anims\\bg\\bg_07.png" ) );
-	backbackground = LoadTexture( std::string( "..\\anims\\bg\\bbg_03.png" ) );
+	backbackground = LoadTexture( std::string( "..\\anims\\bg\\bbg_04.png" ) );
 	
 	// Create player, placement depending upon the entrance taken
 	switch( entrance ) {

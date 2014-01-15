@@ -36,7 +36,7 @@ Level( r, entrance, p, fsys, sfx ) {
 	objects.push_back( new Box( levelWidth - 16.f, 0.f, 16, 312 ) );
 
 	// Add doors
-	doors.push_back( new Door( 0.f, 312.f, 1, false, 0, 0 ) );				// Left door
+	doors.push_back( new Door( 0.f, 312.f, 1, false, 17, 0 ) );				// Left door
 	doorToppers.push_back( new Door( 0.f, 312.f, 1, true ) );
 	objects.push_back( new Box( 0.f, 312.f, 16, 4 ) );
 

@@ -21,37 +21,37 @@ void Organ::init( const char* path ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 }
 
 GLuint Organ::getTex( ) {
 	return texture;
 }
 
-void Organ::loadVA( float w, float h ) {
-	vertices[0].x = 0.f;							// Top left
-	vertices[0].y = 0.f;
+void Organ::loadVA( int w, int h ) {
+	vertices[0].x = 0;								// Top left
+	vertices[0].y = 0;
 	vertices[1].x = w;								// Top rite
-	vertices[1].y = 0.f;
+	vertices[1].y = 0;
 	vertices[2].x = w;								// Bot rite
 	vertices[2].y = h;
-	vertices[3].x = 0.f;							// Bot left
+	vertices[3].x = 0;								// Bot left
 	vertices[3].y = h;
 
-	tvertices[0].x = 0.f;							// Top left
-	tvertices[0].y = 0.f;
-	tvertices[1].x = 1.f;							// Top rite
-	tvertices[1].y = 0.f;
-	tvertices[2].x = 1.f;							// Bot rite
-	tvertices[2].y = 1.f;
-	tvertices[3].x = 0.f;							// Bot left
-	tvertices[3].y = 1.f;
+	tvertices[0].x = 0;								// Top left
+	tvertices[0].y = 0;
+	tvertices[1].x = 1;								// Top rite
+	tvertices[1].y = 0;
+	tvertices[2].x = 1;								// Bot rite
+	tvertices[2].y = 1;
+	tvertices[3].x = 0;								// Bot left
+	tvertices[3].y = 1;
 	
 	if( vertical == true ) {
 		collisionBox[0] = vertices[0];
-		collisionBox[1] = Vector2D( h, 0.f );
-		collisionBox[2] = Vector2D( h, w );
-		collisionBox[3] = Vector2D( 0.f, w );
+		collisionBox[1] = Vector2Di( h, 0 );
+		collisionBox[2] = Vector2Di( h, w );
+		collisionBox[3] = Vector2Di( 0, w );
 	}
 	else {
 		collisionBox[0] = vertices[0];
@@ -76,20 +76,20 @@ float Organ::dist( Organ* target, bool useX, bool useY ) {
 }
 
 void Organ::adjustCollideBox( float mult ) {
-	float fw, fh;
-	fw = w * mult;
-	fh = h * mult;
+	int fw, fh;
+	fw = (int)(w * mult);
+	fh = (int)(h * mult);
 	if( vertical == true ) {
-		collisionBox[0] += Vector2D( -fh, -fw );
-		collisionBox[1] += Vector2D( fh, -fw );
-		collisionBox[2] += Vector2D( fh, fw );
-		collisionBox[3] += Vector2D( -fh, fw );
+		collisionBox[0] += Vector2Di( -fh, -fw );
+		collisionBox[1] += Vector2Di( fh, -fw );
+		collisionBox[2] += Vector2Di( fh, fw );
+		collisionBox[3] += Vector2Di( -fh, fw );
 	}
 	else {
-		collisionBox[0] += Vector2D( -fw, -fh );
-		collisionBox[1] += Vector2D( fw, -fh );
-		collisionBox[2] += Vector2D( fw, fh );
-		collisionBox[3] += Vector2D( -fw, fh );
+		collisionBox[0] += Vector2Di( -fw, -fh );
+		collisionBox[1] += Vector2Di( fw, -fh );
+		collisionBox[2] += Vector2Di( fw, fh );
+		collisionBox[3] += Vector2Di( -fw, fh );
 	}
 }
 
@@ -103,12 +103,18 @@ Vector2D Organ::collides( Organ* target ) {
 	
 	// Create an array of four corners of rectangle
 	Vector2D self[4];
-	for( int i=0; i<4; i++ )
-		self[i] += collisionBox[i] + pos;
+	for( int i=0; i<4; i++ ) {
+		self[i].x += collisionBox[i].x;
+		self[i].y += collisionBox[i].y;
+		self[i] += pos;
+	}
 	// Same with collision target
 	Vector2D targ[4];
-	for( int i=0; i<4; i++ )
-		targ[i] = target->collisionBox[i] + target->pos;
+	for( int i=0; i<4; i++ ) {
+		targ[i].x += target->collisionBox[i].x;
+		targ[i].y += target->collisionBox[i].y;
+		targ[i] += target->pos;
+	}
 
 	// Find min and max on x axis
 	float selfMin = min( min( min( self[0].x, self[1].x ), self[2].x ), self[3].x );
@@ -192,7 +198,7 @@ NPC::NPC( Vector2D p ) {
 	vertical = false;
 	movable = false;
 	solid = true;
-	loadVA( 0.f, 0.f );
+	loadVA( 0, 0 );
 	heartBeat.start( );
 }
 
@@ -223,7 +229,7 @@ Phatbot::Phatbot( Vector2D p ) {
 	movable = false;
 	solid = false;
 	dir = 1;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( 0.2f );
 	heartBeat.start( );
 }
@@ -256,7 +262,7 @@ Projectile::Projectile( bool play, Vector2D p, Vector2D v ) {
 	movable = true;
 	solid = true;
 	hitTime = 0;
-	loadVA( 0.f, 0.f );
+	loadVA( 0, 0 );
 	heartBeat.start( );
 }
 
@@ -306,7 +312,7 @@ BlasterShot::BlasterShot( bool play, Vector2D p, Vector2D v ) {
 	}
 	else
 		dir = (xspeed >= 0)?1:-1;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( !playerShot )
 		adjustCollideBox( -0.2f );
 	heartBeat.start( );
@@ -349,7 +355,7 @@ void BlasterShot::hit( ) {
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( vertical )
 		pos.y += dir * h / 2;
 	else
@@ -380,7 +386,7 @@ SwordSlash::SwordSlash( bool play, int d, Vector2D p, Vector2D v ) {
 		s << i;
 		hitFrames[i] = LoadTexture( std::string( "..\\anims\\projectiles\\sword\\sword_hit_" + s.str() ) + ".png" );
 	}
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( !playerShot )
 		adjustCollideBox( -0.2f );
 	heartBeat.start( );
@@ -394,7 +400,8 @@ SwordSlash::~SwordSlash( ) {
 void SwordSlash::walk( float dt, Organ* pl ) {
 	if( pl != 0 ) {
 		dir = pl->dir;
-		pos = pl->pos + Vector2D( pl->dir*65.f, 20.f );
+		pos = pl->pos;
+		pos += Vector2D( pl->dir*65.f, 20.f );
 		if( pl->dir == 1 )
 			pos.x += pl->w - 52;
 	}
@@ -427,7 +434,7 @@ void SwordSlash::hit( ) {
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 }
 
 
@@ -458,7 +465,7 @@ CannonShot::CannonShot( bool play, Vector2D p, Vector2D v ) {
 	}
 	else
 		dir = (xspeed >= 0)?1:-1;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( !playerShot )
 		adjustCollideBox( -0.2f );
 	heartBeat.start( );
@@ -501,7 +508,7 @@ void CannonShot::hit( ) {
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( vertical == true )
 		pos.y += dir * h / 2;
 	else
@@ -531,7 +538,7 @@ Bone::Bone( bool play, Vector2D p, Vector2D d ) {
 		hitFrames[i] = LoadTexture( std::string( "..\\anims\\projectiles\\bone\\bone_hit_" + s.str() ) + ".png" );
 	}
 	dir = 0;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	if( !playerShot )
 		adjustCollideBox( -0.2f );
 	dest = d;
@@ -589,7 +596,7 @@ void Bone::hit( ) {
 	glBindTexture( GL_TEXTURE_2D, texture );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w );
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 }
 
 
@@ -605,7 +612,7 @@ Enemy::Enemy( ) {
 	maxHP = 0;
 	currentHP = 0;
 	flags = 0;
-	loadVA( 0.f, 0.f );
+	loadVA( 0, 0 );
 	heartBeat.start( );
 }
 
@@ -657,7 +664,7 @@ Medusa::Medusa( Vector2D p, int d ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.2f );
 	heartBeat.start( );
 }
@@ -725,7 +732,7 @@ Runner::Runner( Vector2D p, int d ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.2f );
 }
 
@@ -871,7 +878,7 @@ Shooter::Shooter( Vector2D p, int d, int del, bool vert ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.2f );
 	heartBeat.start( );
 }
@@ -944,7 +951,7 @@ Sawblade::Sawblade( int dist, Vector2D p, int d, bool vert ) {
 			start -= ( distance + w );
 		}
 	}
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.2f );
 	heartBeat.start( );
 }
@@ -1024,7 +1031,7 @@ Skeleton::Skeleton( Vector2D p, int d ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.1f );
 }
 
@@ -1169,7 +1176,7 @@ Zombie::Zombie( int dist, Vector2D p, int d ) {
 	distance = dist - w * 2;
 	if( distance < 0 )
 		distance = 0;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( -0.2f );
 	heartBeat.start( );
 }
@@ -1221,11 +1228,13 @@ void Zombie::walk( float dt ) {
 Item::Item( Vector2D p ) {
 	w = 0;
 	h = 0;
+	id = 0;
 	pos = p;
 	vertical = false;
 	movable = false;
+	equip = false;
 	solid = true;
-	loadVA( 0.f, 0.f );
+	loadVA( 0, 0 );
 }
 
 Item::~Item( ) {
@@ -1237,6 +1246,7 @@ Blaster::Blaster( Vector2D p ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = true;
 	id = 1;
 	dir = 1;
 	
@@ -1245,7 +1255,7 @@ Blaster::Blaster( Vector2D p ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( 0.2f );
 }
 
@@ -1259,6 +1269,7 @@ Sword::Sword( Vector2D p ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = true;
 	id = 2;
 	dir = 1;
 	
@@ -1267,7 +1278,7 @@ Sword::Sword( Vector2D p ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( 0.2f );
 }
 
@@ -1281,6 +1292,7 @@ HeartUp::HeartUp( Vector2D p, int i ) {
 	vertical = false;
 	movable = false;
 	solid = true;
+	equip = false;
 	id = i;
 	dir = 1;
 	
@@ -1289,7 +1301,7 @@ HeartUp::HeartUp( Vector2D p, int i ) {
 	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h );
 	defaultHeight = h;
 	defaultWidth = w;
-	loadVA( (float)w, (float)h );
+	loadVA( w, h );
 	adjustCollideBox( 0.2f );
 }
 

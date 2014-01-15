@@ -4,7 +4,7 @@
 Title::Title( float r, int entrance, Alonebot* p, FMOD::System* fsys, FMOD::Channel* sfx ) {
 	area = INT_MAX;
 	// Inititalize width of level, camera variable, level change
-	levelWidth = 720;				// Width of level in pixels; 1.125 times the background width
+	levelWidth = 640;				// Width of level in pixels
 	levelHeight = 480;
 	cameraX = 0.f;
 	cameraY = 0.f;
@@ -120,17 +120,17 @@ void Title::handle_key( int key, int action ) {
 				  case 0: {
 					levelSwitch = true;
 					break;
-				}
+				  }
 				  case 1: {
 					selection = 0;
 					optionMenu = true;
 					background = options[1][selection][optionValues[selection]];
 					backbackground = options[0][optionValues[0]][optionValues[1]];
 					break;
-				}
+				  }
 				  case 2: {
 					quit( 0 );
-				}
+				  }
 				}
 			}
 			break;

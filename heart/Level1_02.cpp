@@ -28,7 +28,7 @@ Level( r, entrance, p, fsys, sfx ) {
 	objects.push_back( new Box( 0.f, 0.f, 486 ) );							// Ceiling
 	objects.push_back( new Box( 666.f, 0.f, levelWidth - 666 ) );
 	for( int i=0; i<3; i++ ) {												// Floating platforms
-		objects.push_back( new Box( 254 + 256.f * i, 332.f, 128, 16 ) );
+		objects.push_back( new Box( 240 + 256.f * i, 332.f, 156, 16 ) );
 	}
 	objects.push_back( new Dropbox( 526.f, 165.f, 100 ) );
 	for( int i=6; i<10; i++ ) {												// Left staircase
